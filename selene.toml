@@ -1,0 +1,5 @@
+# selene.toml
+std = "roblox"
+
+[rules]
+# Adicione ou desative regras aqui se necessário
