@@ -1,7 +1,10 @@
+local ServerScriptService = game:GetService("ServerScriptService")
 local CollectionService = game:GetService("CollectionService")
-local ReplicatedStorage = game:GetService("ReplicatedStorage")
-local Events = ReplicatedStorage:WaitForChild("Events")
-local InteractionEvent = Events.InteractionEvent
+
+local Bindables = ServerScriptService.Bindables
+local BindableManager = require(Bindables.BindableManager) 
+
+local InteractionEvent = BindableManager.GetEvent("InteractionEvent")
 
 local Local = {}
 local Public = {}
