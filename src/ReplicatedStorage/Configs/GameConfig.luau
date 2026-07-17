@@ -1,16 +1,18 @@
 --!strict
 export type ToolProperties = {
   DisplayName: string,
+  Type: "Axe" | "Pickaxe",
   Power: number,
   Speed: number,
 }
 
 export type NodeProperties = {
   DisplayName: string,
+  Type: "Tree" | "Ore",
   MaxHealth: number,
   Health: number,
   RequiredToolPower: number,
-  RegenTime: number, -- I interact with this node and become Owner, after X owner = -1
+  RegenTime: number,
   RawDropId: string
 }
 
@@ -52,6 +54,7 @@ local Public: ConfigType = {
     Axes = {
       RustyAxe = {
         DisplayName = "Rusty Axe",
+        Type = "Axe",
         Power = 1,
         Speed = 2
       }
@@ -60,6 +63,7 @@ local Public: ConfigType = {
     Pickaxes = {
       RustyPickaxe = {
         DisplayName = "Rusty Pickaxe",
+        Type = "Pickaxe",
         Power = 1,
         Speed = 2
       }
@@ -70,6 +74,7 @@ local Public: ConfigType = {
     Trees = {
       Oak = {
         DisplayName = "Oak Tree",
+        Type = "Tree",
         MaxHealth = 100,
         Health = 100,
         RequiredToolPower = 1,
@@ -81,6 +86,7 @@ local Public: ConfigType = {
     Ores = {
       Stone = {
         DisplayName = "Stone",
+        Type = "Ore",
         MaxHealth = 100,
         Health = 100,
         RequiredToolPower = 1,
