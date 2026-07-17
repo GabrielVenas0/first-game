@@ -1,7 +1,15 @@
 local ServerScriptService = game:GetService("ServerScriptService")
-local ServicesFolder = ServerScriptService:WaitForChild("Services")
+local ReplicatedStorage = game:GetService("ReplicatedStorage")
+
+local ServicesFolder = ServerScriptService.Services
 
 local LoadedServices = {}
+
+local BindableManager = require(ServerScriptService.Bindables.BindableManager)
+local RemoteManager = require(ReplicatedStorage.Remotes.RemoteManager)
+
+BindableManager.Init()
+RemoteManager.InitServer()
 
 for _, moduleScript in ipairs(ServicesFolder:GetChildren()) do
     if moduleScript:IsA("ModuleScript") then
