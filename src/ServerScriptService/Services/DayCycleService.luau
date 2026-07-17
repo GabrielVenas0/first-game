@@ -4,7 +4,7 @@ local Lighting = game:GetService("Lighting")
 
 local CYCLE_SPEED= 0.075
 
-local Local = {}
+local _Local = {}
 local Public = {}
 
 function Public.Init()
