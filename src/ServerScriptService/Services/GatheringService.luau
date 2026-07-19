@@ -2,9 +2,13 @@
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
 
 local Configs = ReplicatedStorage:WaitForChild("Configs")
+local Remotes = ReplicatedStorage:WaitForChild("Remotes")
 
 local GameConfig = require(Configs.GameConfig)
 local DropService = require(script.Parent.DropService)
+local RemoteManager = require(Remotes:WaitForChild("RemoteManager"))
+
+local NotificationEvent = RemoteManager.GetEvent("Notification")
 
 local NORMAL_DAMAGE = 10
 local COEF_DAMAGE = 0.25
@@ -42,11 +46,14 @@ function Local.getNodeProperties(nodeId: string): GameConfig.NodeProperties?
   return nil
 end
 
-function Local.CalcuteDamage(node: GameConfig.NodeProperties, tool: GameConfig.ToolProperties)
+function Local.CalcuteDamage(player: Player, object: BasePart, tool: Tool)
+  local health = object:GetAttribute("Health") :: number
+  local power = tool:GetAttribute("Power") :: number
+
   local damage: number
   local newHealth: number
 
-  damage = NORMAL_DAMAGE * (1 + COEF_DAMAGE)^tool.Power
+  damage = NORMAL_DAMAGE * (1 + COEF_DAMAGE)^power
   -- In future I will add:
   -- Enchantments
   -- Buffs ( Premium Players, Group Players, Gamepasses, F2P things )
@@ -54,12 +61,22 @@ function Local.CalcuteDamage(node: GameConfig.NodeProperties, tool: GameConfig.T
   -- Skill Level Rewards
   -- More or less? I will think about it later 
 
-  if node.Health < damage then
+  local popup = {
+    DisplayName = tostring(damage),
+    ScreenTime = 2,
+    Type = "Popup",
+    Object = object
+  }
+
+  NotificationEvent:FireClient(player, popup)
+
+
+  if health < damage then
     newHealth = 0
     return newHealth, true
   end
 
-  newHealth = node.Health - damage
+  newHealth = health - damage
   -- Maybe add NodeResistance or that's to much?
   
   return newHealth, false
@@ -78,10 +95,12 @@ function Public.Gather(player: Player, node: BasePart, tool: Tool)
 
   if (toolProps.Power :: number) < nodeProps.RequiredToolPower then return end
 
+  local health: number
   local broken: boolean
-
   -- Fix that, I was changing Health of Node in GameConfig not Object Health
-  nodeProps.Health, broken = Local.CalcuteDamage(nodeProps, toolProps)
+  health, broken = Local.CalcuteDamage(player, node, tool)
+
+  node:SetAttribute("Health", health)
 
   if broken == true then 
     DropService.rawDrop(player, node)

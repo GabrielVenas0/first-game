@@ -1,4 +1,5 @@
 --!strict
+local Players = game:GetService("Players")
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
 local ServerScriptService = game:GetService("ServerScriptService")
 
@@ -34,25 +35,32 @@ function Local.OnInteraction(player: Player, object: BasePart)
 
   local equippedTool = character:FindFirstChildOfClass("Tool")
   if not equippedTool then
-    local a = {
-      DisplayName = "Teste",
-      ScreenTime = 2,
+    local msg = {
+      DisplayName = "You need to equipe a tool.",
+      ScreenTime = 3,
       Type = "Alert"
     }
 
-    NotificationEvent:FireClient(player, a)
+    NotificationEvent:FireClient(player, msg)
     return 
   end
 
   if Ownable then
-    if pOwner :: number ~= nil and pOwner >= 1 and player.UserId ~= pOwner then return end
+    if pOwner :: number ~= nil and pOwner >= 1 and player.UserId ~= pOwner then 
+      local msg = {
+        DisplayName = string.format("You need to be in %d's whitelist", Players:GetNameFromUserIdAsync(pOwner)),
+        ScreenTime = 4,
+        Type = "Alert"
+      }
+  
+      NotificationEvent:FireClient(player, msg)
+      return
+    end
 
-    if pOwner < 1 then
+    if pOwner < 0 then
       object:SetAttribute("PlayerOwner", player.UserId)
     end
-  else            
-    return
-  end
+  else return end
 
   if (object:GetAttribute("Locked") :: any) == true then return end
 
