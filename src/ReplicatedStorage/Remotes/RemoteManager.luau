@@ -5,7 +5,8 @@ local RemoteManager = {}
 local remotesFolder = script.Parent
 
 local REMOTE_EVENTS = {
-  "DragStart",
+  "StartDrag",
+  "StopDrag",
 	"Notification",
 	"startHover",
 	"endHover"
