@@ -12,9 +12,9 @@ local UITemplates = ReplicatedStorage:WaitForChild("UITemplates")
 local RemoteManager = require(Remotes:WaitForChild("RemoteManager"))
 
 local NotificationEvent = RemoteManager.GetEvent("Notification")
+
 local AlertFrame = UITemplates:WaitForChild("AlertFrame")
 local PopupUI = UITemplates:WaitForChild("PopupUI")
-
 
 local Local = {}
 local Public = {}
@@ -112,7 +112,5 @@ function Public.FireNotification(n: notificationProperties)
     end)
   end
 end
-
-
 
 return Public

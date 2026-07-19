@@ -14,15 +14,12 @@ function Public.Start()
 end
 
 --[[
-Muito a se fazer aqui ainda:
-codigo cheira mal
-a fisica de queda bem feia
-ID do drop do node etc
+TO DO
+- Improve drop animation
+- Drop ID
+- Improve Security
 ]]
-function Public.rawDrop(pOwner, node)
-  local object = node :: Part
-  if not object then return end
-
+function Public.rawDrop(pOwner: number, object: BasePart)
   local cframeValue = Instance.new("CFrameValue")
   cframeValue.Value = object:GetPivot()
 
@@ -39,8 +36,8 @@ function Public.rawDrop(pOwner, node)
   
   tween:Play()
   tween.Completed:Connect(function()
-	  cframeValue:Destroy()
     object.Anchored = false
+	  cframeValue:Destroy()
     object:SetAttribute("Action", "Drag")
   end)
 end
