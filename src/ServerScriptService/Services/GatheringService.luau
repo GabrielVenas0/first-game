@@ -4,7 +4,7 @@ local ReplicatedStorage = game:GetService("ReplicatedStorage")
 local Configs = ReplicatedStorage:WaitForChild("Configs")
 local Remotes = ReplicatedStorage:WaitForChild("Remotes")
 
-local GameConfig = require(Configs.GameConfig)
+local GameUtils = require(Configs.GameUtils)
 local DropService = require(script.Parent.DropService)
 local RemoteManager = require(Remotes:WaitForChild("RemoteManager"))
 
@@ -22,28 +22,6 @@ end
 
 function Public.Start()
   
-end
-
--- deveria colocar essa function no GameConfig.luau
-function Local.getToolProperties(toolId: string): GameConfig.ToolProperties?
-  local toolProps = GameConfig.Tools.Axes[toolId]
-  if toolProps then return toolProps end
-
-  toolProps = GameConfig.Tools.Pickaxes[toolId]
-  if toolProps then return toolProps end
-
-  return nil
-end
-
-function Local.getNodeProperties(nodeId: string): GameConfig.NodeProperties?
-  -- deveria colocar essa function no GameConfig.luau?
-  local nodeProps = GameConfig.Nodes.Trees[nodeId]
-  if nodeProps then return nodeProps end
-
-  nodeProps = GameConfig.Nodes.Ores[nodeId]
-  if nodeProps then return nodeProps end
-
-  return nil
 end
 
 function Local.CalcuteDamage(player: Player, object: BasePart, tool: Tool)
@@ -86,8 +64,8 @@ function Public.Gather(player: Player, node: BasePart, tool: Tool)
   local toolId = tool:GetAttribute("ID") :: string
   local nodeId = node:GetAttribute("ID") :: string
 
-  local toolProps = Local.getToolProperties(toolId)
-  local nodeProps = Local.getNodeProperties(nodeId)
+  local toolProps = GameUtils.getToolProperties(toolId)
+  local nodeProps = GameUtils.getNodeProperties(nodeId)
 
   if not toolProps or not nodeProps then return end
 
@@ -97,13 +75,12 @@ function Public.Gather(player: Player, node: BasePart, tool: Tool)
 
   local health: number
   local broken: boolean
-  -- Fix that, I was changing Health of Node in GameConfig not Object Health
   health, broken = Local.CalcuteDamage(player, node, tool)
 
   node:SetAttribute("Health", health)
 
   if broken == true then 
-    DropService.rawDrop(player, node)
+    DropService.rawDrop(player.UserId, node)
     node:SetAttribute("Action", "Drag")
   end
 end
