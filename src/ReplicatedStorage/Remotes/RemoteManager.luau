@@ -6,7 +6,9 @@ local remotesFolder = script.Parent
 
 local REMOTE_EVENTS = {
   "DragStart",
-	"Notification"
+	"Notification",
+	"startHover",
+	"endHover"
 }
 
 local REMOTE_FUNCTIONS = {}
