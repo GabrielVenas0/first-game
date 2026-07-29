@@ -66,13 +66,12 @@ function Local.LoadProfile(player: Player)
     player:Kick('Profile session ended. Please rejoin.')
   end)
 
-  local isActive = player.Parent == Players
-  if isActive then
-    Profiles[player] = profile
-  else
-    profile:EndSession()
-  end
+  if player.Parent ~= Players then
+		profile:EndSession()
+		return
+	end
   
+  Profiles[player] = profile
   Local.CreateLeaderstats(player)
 
   if RunService:IsStudio() then
@@ -89,7 +88,7 @@ end
 
 function Public.GetData(player: Player)
   local profile = Profiles[player]
-  if not profile then return end
+  if not profile then return nil end
 
   return profile.Data
 end
