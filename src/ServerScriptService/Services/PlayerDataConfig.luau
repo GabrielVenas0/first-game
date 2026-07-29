@@ -5,9 +5,15 @@ Public.DEFAULT_PLAYER_DATA = {
   leaderstats = {
     Cash = 0
   },
-  -- Skills
-  -- Items/Builds
-  -- Tools
+  Skills = {
+    Lumber = 0,
+    Miner = 0
+  },
+  Quests = {
+
+  },
+  completedTutorial = false
+  -- Everthing in Player's Plot
   -- Inventory
   -- GamePasses
   -- ...

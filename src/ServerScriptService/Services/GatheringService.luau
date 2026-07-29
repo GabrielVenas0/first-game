@@ -6,6 +6,7 @@ local Remotes = ReplicatedStorage:WaitForChild("Remotes")
 
 local GameUtils = require(Configs.GameUtils)
 local DropService = require(script.Parent.DropService)
+local SkillsService = require(script.Parent.SkillsService)
 local RemoteManager = require(Remotes:WaitForChild("RemoteManager"))
 
 local NotificationEvent = RemoteManager.GetEvent("Notification")
@@ -69,18 +70,27 @@ function Public.Gather(player: Player, node: BasePart, tool: Tool)
 
   if not toolProps or not nodeProps then return end
 
+  local class: string
   if (toolProps.Type == "Axe" and nodeProps.Type ~= "Tree") or (toolProps.Type == "Pickaxe" and (nodeProps.Type ~= "Ore" :: any)) then return end
 
-  if (toolProps.Power :: number) < nodeProps.RequiredToolPower then return end
+  if (toolProps.Type == "Axe") then
+    class = "Lumber"
+  else
+    class = "Miner"
+  end
 
+  
+  if (toolProps.Power :: number) < nodeProps.RequiredToolPower then return end
+  
   local health: number
   local broken: boolean
   health, broken = Local.CalcuteDamage(player, node, tool)
-
+  
   node:SetAttribute("Health", health)
-
+  
   if broken == true then 
     DropService.rawDrop(player.UserId, node)
+    SkillsService.GiveXP(player, class)
     node:SetAttribute("Action", "Drag")
   end
 end
