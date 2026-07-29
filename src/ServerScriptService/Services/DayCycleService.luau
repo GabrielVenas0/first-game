@@ -2,7 +2,7 @@
 local RunService = game:GetService("RunService")
 local Lighting = game:GetService("Lighting")
 
-local CYCLE_SPEED= 0.075
+local CYCLE_SPEED= 0.025
 
 local _Local = {}
 local Public = {}
