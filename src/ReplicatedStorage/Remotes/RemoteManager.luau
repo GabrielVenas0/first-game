@@ -5,11 +5,27 @@ local RemoteManager = {}
 local remotesFolder = script.Parent
 
 local REMOTE_EVENTS = {
+	-- DRAG SYSTEM
   "StartDrag",
   "StopDrag",
+
+	-- NOTIFICATION SYSTEM
 	"Notification",
+
+	-- HOVER SYSTEM
 	"startHover",
-	"endHover"
+	"endHover",
+
+	-- TUTORIAL SYSTEM
+	"StartTutorial",
+	"EndTutorial",
+
+	-- QUESTS SYSTEM
+	"StartQuest",
+	"CompleteQuest",
+
+	-- NPC SYSTEM
+	"StartTalkEvent"
 }
 
 local REMOTE_FUNCTIONS = {}

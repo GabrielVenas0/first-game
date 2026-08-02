@@ -13,7 +13,10 @@ local InteractionEvent = BindableManager.GetEvent("InteractionEvent")
 local NotificationEvent = RemoteManager.GetEvent("Notification")
 
 local DragService = require(script.Parent.DragService)
+local ForgeService = require(script.Parent.ForgeService)
 local GatheringService = require(script.Parent.GatheringService)
+local NPCService = require(script.Parent.NPCService)
+local QuestService = require(script.Parent.QuestService)
 
 local Local = {}
 local Public = {}
@@ -55,6 +58,10 @@ end
 function Local.OnInteraction(player: Player, object: BasePart)
   local character = player.Character
   if not character then return end
+  if (object:GetAttribute("Action") == "Talk") then
+    NPCService.StartTalk(player, object)
+    return
+  end
 
   local ownable = Local.IsOwnable(player, object)
   if ownable == false then return end
