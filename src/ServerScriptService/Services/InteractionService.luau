@@ -13,10 +13,8 @@ local InteractionEvent = BindableManager.GetEvent("InteractionEvent")
 local NotificationEvent = RemoteManager.GetEvent("Notification")
 
 local DragService = require(script.Parent.DragService)
-local ForgeService = require(script.Parent.ForgeService)
 local GatheringService = require(script.Parent.GatheringService)
 local NPCService = require(script.Parent.NPCService)
-local QuestService = require(script.Parent.QuestService)
 
 local Local = {}
 local Public = {}
