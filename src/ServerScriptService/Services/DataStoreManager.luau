@@ -93,4 +93,13 @@ function Public.GetData(player: Player)
   return profile.Data
 end
 
+function Public.RemoveData(player: Player, key: string, id: string)
+  local profile = Profiles[player]
+  if profile then
+    profile.Data.key.id = nil
+  end
+  
+  profile:Save()
+end
+
 return Public
