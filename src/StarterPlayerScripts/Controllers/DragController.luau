@@ -12,7 +12,7 @@ local StartDragEvent = RemoteManager.GetEvent("StartDrag")
 local StopDragEvent = RemoteManager.GetEvent("StopDrag")
 
 local Public = {}
-
+local Local = {}
 --[[
 I need to study more to improve Drag System (physics/math) --> Smooth, Precise and better object move
 
@@ -32,11 +32,11 @@ function Public.Init()
 end
 
 function Public.Start()
-	StartDragEvent.OnClientEvent:Connect(Public.startMouse)
-	StopDragEvent.OnClientEvent:Connect(Public.stopMouse)
+	StartDragEvent.OnClientEvent:Connect(Local.startMouse)
+	StopDragEvent.OnClientEvent:Connect(Local.stopMouse)
 end
 
-function Public.startMouse(targetObject: BasePart)
+function Local.startMouse(targetObject: BasePart)
 	if not targetObject then return end
 	
 	local localPlayer = Players.LocalPlayer
@@ -45,7 +45,7 @@ function Public.startMouse(targetObject: BasePart)
 	local camera = Workspace.CurrentCamera
 	if not camera then return end
 
-	Public.stopMouse(targetObject)
+	Local.stopMouse(targetObject)
 
 	local raycastParams = RaycastParams.new()
 	raycastParams.FilterType = Enum.RaycastFilterType.Exclude
@@ -53,7 +53,7 @@ function Public.startMouse(targetObject: BasePart)
 	
 	dragConnection = RunService.Heartbeat:Connect(function()
 		if not targetObject or not targetObject.Parent then
-			Public.stopMouse(targetObject :: BasePart)
+			Local.stopMouse(targetObject :: BasePart)
 			return
 		end
 
@@ -91,13 +91,13 @@ function Public.startMouse(targetObject: BasePart)
 	inputConnection = UserInputService.InputBegan:Connect(function(input, gameProcessedEvent)
 		if gameProcessedEvent then return end
 		
-		if input.KeyCode == Enum.KeyCode.F then
-			Public.stopMouse(targetObject)
+		if input.UserInputType == Enum.UserInputType.MouseButton1 then
+			Local.stopMouse(targetObject)
 		end
 	end)
 end
 
-function Public.stopMouse(targetObject: BasePart)
+function Local.stopMouse(targetObject: BasePart)
 	if dragConnection then
 		dragConnection:Disconnect()
 		dragConnection = nil

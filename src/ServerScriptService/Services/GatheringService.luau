@@ -92,6 +92,8 @@ function Public.Gather(player: Player, node: BasePart, tool: Tool)
     DropService.rawDrop(player.UserId, node)
     SkillsService.GiveXP(player, class)
     node:SetAttribute("Action", "Drag")
+    local prompt = node:WaitForChild("ProximityPrompt")
+    prompt:Destroy()
   end
 end
 

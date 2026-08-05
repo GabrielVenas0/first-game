@@ -11,7 +11,8 @@ if not ServerStorage:FindFirstChild("ServerBindables") then
 end
 
 local BINDABLE_EVENTS = {
-	"InteractionEvent"
+	"InteractionEvent",
+	"ClickEvent"
 }
 
 function ServerBindableManager.Init()

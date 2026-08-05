@@ -9,6 +9,7 @@ local BindableManager = require(Bindables.BindableManager)
 local RemoteManager = require(Remotes:WaitForChild("RemoteManager")) 
 
 local InteractionEvent = BindableManager.GetEvent("InteractionEvent")
+local ClickEvent = BindableManager.GetEvent("ClickEvent")
 local startHoverEvent = RemoteManager.GetEvent("startHover")
 local endHoverEvent = RemoteManager.GetEvent("endHover")
 
@@ -67,6 +68,9 @@ function Local.setupClick(object)
   
   click.MouseHoverLeave:Connect(function(player: Player)
     endHoverEvent:FireClient(player, object)
+  end)
+  click.MouseClick:Connect(function(player: Player)
+    ClickEvent:Fire(player, object)
   end)
 end
 

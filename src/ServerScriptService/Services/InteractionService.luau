@@ -10,6 +10,7 @@ local Remotes = ReplicatedStorage:WaitForChild("Remotes")
 local RemoteManager = require(Remotes:WaitForChild("RemoteManager"))
 
 local InteractionEvent = BindableManager.GetEvent("InteractionEvent")
+local ClickEvent = BindableManager.GetEvent("ClickEvent")
 local NotificationEvent = RemoteManager.GetEvent("Notification")
 
 local DragService = require(script.Parent.DragService)
@@ -25,6 +26,7 @@ end
 
 function Public.Start() 
   InteractionEvent.Event:Connect(Local.OnInteraction)
+  ClickEvent.Event:Connect(Local.OnClick)
 end
 
 function Local.IsOwnable(player: Player, object: BasePart): boolean
@@ -82,6 +84,12 @@ function Local.OnInteraction(player: Player, object: BasePart)
     GatheringService.Gather(player, object, equippedTool)    
   end
 
+  -- if (object:GetAttribute("Action") :: any == "Drag") then
+  --   DragService.DragObject(player, object)
+  -- end
+end
+
+function Local.OnClick(player, object)
   if (object:GetAttribute("Action") :: any == "Drag") then
     DragService.DragObject(player, object)
   end
