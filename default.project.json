@@ -3,10 +3,25 @@
   "tree": {
     "$className": "DataModel",
     "ReplicatedStorage": {
-      "$path": "src/ReplicatedStorage"
+      "$path": "src/ReplicatedStorage",
+      "UITemplates": {
+        "$className": "Folder",
+        "$ignoreUnknownInstances": true
+      },
+      "$ignoreUnknownInstances": true
     },
     "ServerScriptService": {
-      "$path": "src/ServerScriptService"
+      "$path": "src/ServerScriptService",
+       "Packages": {
+        "$className": "Folder",
+        "$ignoreUnknownInstances": true
+      }
+    },
+    "ServerStorage": {
+       "Assets": {
+        "$className": "Folder",
+        "$ignoreUnknownInstances": true
+      }
     },
     "StarterPlayer": {
       "$className": "StarterPlayer",
