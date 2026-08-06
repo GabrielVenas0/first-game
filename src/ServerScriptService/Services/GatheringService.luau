@@ -7,6 +7,8 @@ local Remotes = ReplicatedStorage:WaitForChild("Remotes")
 local GameUtils = require(Configs.GameUtils)
 local DropService = require(script.Parent.DropService)
 local SkillsService = require(script.Parent.SkillsService)
+local GenerationService = require(script.Parent.GenerationService)
+
 local RemoteManager = require(Remotes:WaitForChild("RemoteManager"))
 
 local NotificationEvent = RemoteManager.GetEvent("Notification")
@@ -90,6 +92,8 @@ function Public.Gather(player: Player, node: BasePart, tool: Tool)
   
   if broken == true then 
     DropService.rawDrop(player.UserId, node)
+    GenerationService.Discount(node)
+
     SkillsService.GiveXP(player, class)
     node:SetAttribute("Action", "Drag")
     local prompt = node:WaitForChild("ProximityPrompt")

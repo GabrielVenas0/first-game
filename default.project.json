@@ -7,8 +7,7 @@
       "UITemplates": {
         "$className": "Folder",
         "$ignoreUnknownInstances": true
-      },
-      "$ignoreUnknownInstances": true
+      }
     },
     "ServerScriptService": {
       "$path": "src/ServerScriptService",

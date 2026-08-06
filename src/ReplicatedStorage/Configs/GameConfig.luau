@@ -14,8 +14,9 @@ export type NodeProperties = {
 	RequiredToolPower: number,
 	RegenTime: number,
 	RawDropId: string,
-	-- MinSize: number,
-	-- MaxSize: number,
+	MinSize: number,
+	MaxSize: number,
+	BaseSize: number
 }
 
 export type RefineRecipe = {
@@ -78,8 +79,9 @@ local Public: ConfigType = {
 				RequiredToolPower = 1,
 				RegenTime = 10,
 				RawDropId = "OakLog",
-				MinSize = 0.8,
-				MaxSize = 1.5,
+				MinSize = 8,
+				MaxSize = 15,
+				BaseSize = 25,
 			},
 		},
 		Ores = {
@@ -93,6 +95,7 @@ local Public: ConfigType = {
 				RawDropId = "Cobblestone",
 				MinSize = 0.5,
 				MaxSize = 1.2,
+				BaseSize = 5
 			},
 		},
 	},
