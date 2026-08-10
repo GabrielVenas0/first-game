@@ -29,12 +29,14 @@ function Public.Start()
   CompleteQuest.OnServerEvent:Connect(Public.OnQuestCompleted)
 end
 
+
 function Local.hasCompleted(player: Player, questId: string): boolean
   local data = DataStoreManager.GetData(player)
   if not data then return false end
 
   return data.CompletedQuests[questId] == true or false
 end
+
 
 function Public.LoadQuests(player: Player)
   task.wait(4)
@@ -46,7 +48,8 @@ function Public.LoadQuests(player: Player)
   end
 end
 
-function Public.GetQuestState(player: Player, questId: string): string
+
+function Local.getQuestState(player: Player, questId: string): string
   local data = DataStoreManager.GetData(player)
   if not data then return "NOT_STARTED" end
 
@@ -58,48 +61,67 @@ function Public.GetQuestState(player: Player, questId: string): string
   return "NOT_STARTED"
 end
 
-function Public.CanAcceptQuest(player: Player, questId: string): boolean
+
+function Local.canAcceptQuest(player: Player, questId: string): boolean
   local config = QuestsDefinitions[questId]
   if not config then return false end
 
-  if Public.GetQuestState(player, questId) ~= "NOT_STARTED" then 
+  if Local.hasCompleted(player, questId) then
+    return false
+  end
+
+  if Local.getQuestState(player, questId) ~= "NOT_STARTED" then 
     -- NOTIFICATION ALERT
     return false
   end
 
-  local toClient = {
+  if not config.Prerequisites or next(config.Prerequisites) == nil then return true end
 
-  }
+  local prereqAmount = #config.Prerequisites
+  local completedCount = 0
 
-  StartQuest:FireClient(player, questId, toClient)
+  for _, prereqID in ipairs(config.Prerequisites) do
+    if Local.hasCompleted(player, prereqID) then
+      completedCount += 1
+    end
 
-  if config.Prerequisites then
-    for _, prereqID in ipairs(config.Prerequisites) do
-      if Local.hasCompleted then
-        return false
-      end
+    if prereqAmount <= completedCount then
+      return true
     end
   end
   
-  return true
+  return false
 end
+
+
+function Local.trackQuestProgress()
+
+end
+
 
 function Public.GetAvaliableQuestForNPC(player: Player, NPCID: string)
-  for questId, config in pairs(QuestsDefinitions) do
-    if config.NPC_ID ~= NPCID and not Public.CanAcceptQuest(player, questId) then return end
+  local avaliableQuests = {}
 
-    return questId
+  for questId, config in pairs(QuestsDefinitions) do
+    if config.NPC_ID == NPCID and Local.canAcceptQuest(player, questId) then 
+      avaliableQuests[questId] = true
+      continue
+    end
   end
+
+  return avaliableQuests
 end
 
+
 function Public.OnQuestAccepted(player: Player, questId: string)
-  Public.CanAcceptQuest(player, questId)
+  if not Local.canAcceptQuest(player, questId) then return end
 
   local data = DataStoreManager.GetData(player)
   if not data then return end
 
-  data.ActiveQuests[questId] = 0
+  data.ActiveQuests[questId] = false
 end
+
 
 function Public.OnQuestCompleted(player: Player, questId: string)
   local data = DataStoreManager.GetData(player)
@@ -107,7 +129,7 @@ function Public.OnQuestCompleted(player: Player, questId: string)
 
   if not data.ActiveQuests[questId] then return end
 
-  data.CompletedQuests[questId] = 0
+  data.CompletedQuests[questId] = true
   data.ActiveQuests[questId] = nil
 
   CompleteQuest:FireClient(player, questId)

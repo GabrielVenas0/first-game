@@ -5,11 +5,10 @@ export type RewardsType = {
 
 export type QuestType = {
   NPC_ID: string,
-  Prerequisites: {},
+  Prerequisites: {string},
   Title: string,
   Objective: string,
   Rewards: RewardsType,
-  Active: boolean,
   State: "NOT_STARTED" | "IN_PROGRESS" | "COMPLETED"
 }
 
@@ -27,7 +26,6 @@ local Public: QuestProps = {
     Rewards = {
       Cash = 50
     },
-    Active = true,
     State = "NOT_STARTED"
   }
 
