@@ -1,6 +1,5 @@
 --!strict
 local Players = game:GetService("Players")
-local ServerScriptService = game:GetService("ServerScriptService")
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
 
 local player = Players.LocalPlayer
@@ -38,7 +37,7 @@ end
 
 function Public.CompleteQuest(questId)
   for _, v in pairs(QuestList:GetChildren()) do
-    if v == questId then
+    if v.Name == questId then
       v:Destroy()
     end
   end

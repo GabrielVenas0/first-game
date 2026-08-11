@@ -1,16 +1,25 @@
-export type RewardsType = {
+export type Reward = {
   Cash: number?,
   ItemID: string?
 }
 
+export type Objective = {
+  Type: string, -- Gather/Give/Get
+  Target: string, -- Tree/Ore/Item/NPC
+  -- What's happen if Target is a specific Tree like Oak Tree?
+  Amount: number,
+
+  -- Client side maybe use patterns for different objective types and replace like: {Type} {Target} {Amount}
+}
+
 export type QuestType = {
-  NPC_ID: string,
-  Prerequisites: {},
   Title: string,
-  Objective: string,
-  Rewards: RewardsType,
-  Active: boolean,
-  State: "NOT_STARTED" | "IN_PROGRESS" | "COMPLETED"
+  Description: string,
+  NPC_ID: string,
+  Prerequisites: {string},
+  Objectives: {Objective},
+  Rewards: Reward,
+  -- Repeatable: boolean?
 }
 
 export type QuestProps = { 
@@ -20,38 +29,36 @@ export type QuestProps = {
 
 local Public: QuestProps = {
   Quest_1 = {
+    Title = "Learning basics",
+    Description = "Gather wood and give it to Old Forge to craft a wooden pickaxe.",
     NPC_ID = "OldForger",
     Prerequisites = {},
-    Title = "The voice of experience",
-    Objective = "Talk to Old Forger",
+    Objectives = {
+      { Type = "Gather", Target = "Tree", Amount = 1 },
+      { Type = "Give", Target = "OldForger", Amount = 1 },
+      { Type = "Get", Target = "WoodenPickaxe", Amount = 1 }
+      -- Maybe use only get tartget woodenpickaxe?
+    },
     Rewards = {
       Cash = 50
+    }
+  },
+
+  Quest_2 = {
+    Title = "New generation",
+    Description = "Gather wood and cobblestone and get your first set of stone tools",
+    NPC_ID = "OldForger",
+    Prerequisites = {"Quest_1"},
+    Objectives = {
+      { Type = "Get", Target = "StoneAxe", Amount = 1 },
+      { Type = "Get", Target = "StonePickaxe", Amount = 1 }
     },
-    Active = true,
-    State = "NOT_STARTED"
+    Rewards = {
+      ItemID = "BasicForge"
+      -- Cash Reward by Tutorial
+      -- that rewards logic is good at all?
+    }
   }
-
-  -- Quest_2 = {
-  --   Name = "Learning basics",
-  --   NPC = "Old Forger",
-  --   Quest = "Make a wooden pickaxe",
-  --   Rewards = {
-  --     Cash = 50
-  --   },
-  --   Active = true,  
-  --   State = "Track"
-  -- },
-
-  -- Quest_3 = {
-  --   Name = "New generation",
-  --   NPC = "Old Forger",
-  --   Quest = "Make your first Stone Tool",
-  --   Rewards = {
-  --     ItemID = "BasicForge"
-  --   },
-  --   Active = true,
-  --   State = "Track"
-  -- }
 }
 
 return Public

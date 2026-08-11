@@ -11,13 +11,13 @@
     },
     "ServerScriptService": {
       "$path": "src/ServerScriptService",
-       "Packages": {
+      "Packages": {
         "$className": "Folder",
         "$ignoreUnknownInstances": true
       }
     },
     "ServerStorage": {
-       "Assets": {
+      "Assets": {
         "$className": "Folder",
         "$ignoreUnknownInstances": true
       }
