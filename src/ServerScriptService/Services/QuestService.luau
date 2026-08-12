@@ -51,8 +51,6 @@ function Public.LoadQuests(player: Player)
   if not data then return end
 
   for questId, _ in pairs(data.ActiveQuests) do
-    print(questId)
-    print(QuestsDefinitions[questId])
     StartQuest:FireClient(player, questId, QuestsDefinitions[questId])
   end
 end
@@ -115,26 +113,25 @@ function Public.OnQuestAccepted(player: Player, questId: string)
   local data = DataStoreManager.GetData(player)
   if not data then return end
 
-  -- local req = {
-  --   questId  = questId, current = 0, target = 1
-  -- } :: {questId: string, current: number, target: number}
-
   data.ActiveQuests[questId] = true
 
+  local activeObj = data.ActiveObjectives :: {}
+  
   local config = QuestsDefinitions[questId]
 	if config and config.Objectives then
 		for _, reqConfig in ipairs(config.Objectives) do
 			local targetPart = reqConfig.Target
+      
 			if targetPart then
-				if not data.ActiveRequirements[targetPart] then
-					data.ActiveRequirements[targetPart] = {}
-				end
-				
-				table.insert(data.Objectives[targetPart] :: {questId: string, current: number, target: number}, {
-					questId = questId,
+        if not activeObj[targetPart] then
+          activeObj[targetPart] = {}
+        end
+
+				activeObj[targetPart][questId] = {
+          type = reqConfig.Type,
 					current = 0,
 					target = reqConfig.Amount
-				})
+        } 
 			end
 		end
 	end
