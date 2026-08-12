@@ -43,7 +43,7 @@ function Public.CompleteQuest(questId)
   end
 end
 
-function Local.ActiveQuestUI(questId: string, q)
+function Local.ActiveQuestUI(questId: string, q: {Title: string, Rewards: {}, Objectives: {}})
   local newQuest = QuestTemplate:Clone()
   newQuest.Name = questId
 
@@ -59,7 +59,7 @@ function Local.ActiveQuestUI(questId: string, q)
   QuestName.Text = q.Title
   RewardsLabel.Text = "Rewards: " .. q.Rewards["Cash"]
 
-  QuestDesc.Text = q.Objective
+  QuestDesc.Text = q.Objectives
 
   newQuest.Parent = QuestList
 end
