@@ -54,7 +54,10 @@ function Local.endHover(object: BasePart)
   HoverFrame.Visible = false
 
   local highlight = object:FindFirstChildOfClass("Highlight") :: Highlight
-  highlight:Destroy()
+
+  if highlight then
+    highlight:Destroy()
+  end
 end
 
 return Public
