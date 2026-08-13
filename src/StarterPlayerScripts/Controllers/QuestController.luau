@@ -9,6 +9,7 @@ local Remotes = ReplicatedStorage:WaitForChild("Remotes")
 
 local UITemplates = ReplicatedStorage:WaitForChild("UITemplates")
 local QuestTemplate = UITemplates:WaitForChild("Quest")
+local QuestSpecTemplate = UITemplates:WaitForChild("QuestSpec")
 
 local RemoteManager = require(Remotes:WaitForChild("RemoteManager")) 
 
@@ -43,23 +44,38 @@ function Public.CompleteQuest(questId)
   end
 end
 
-function Local.ActiveQuestUI(questId: string, q: {Title: string, Rewards: {}, Objectives: {}})
+function Local.ActiveQuestUI(questId: string, q: {Title: string, Description: string, Rewards: {}, Objectives: {}})
   local newQuest = QuestTemplate:Clone()
+  local QuestSpec = QuestSpecTemplate:Clone() 
   newQuest.Name = questId
 
   local QuestName = newQuest:WaitForChild("QuestName")
   local QuestInfo = newQuest:WaitForChild("QuestInfo")
 
-  local RewardsLabel = QuestInfo:WaitForChild("Rewards")
-  local QuestSpec = QuestInfo:WaitForChild("QuestSpec")
-
-  local QuestDesc = QuestSpec:WaitForChild("TextLabel")
-  local ProgressBar = QuestSpec:WaitForChild("ProgressBar")
+  local Description = QuestInfo:WaitForChild("Description")
+  local Rewards = QuestInfo:WaitForChild("Rewards")
 
   QuestName.Text = q.Title
-  RewardsLabel.Text = "Rewards: " .. q.Rewards["Cash"]
+  Description.Text = q.Description
 
-  QuestDesc.Text = q.Objectives
+  local rewards = {}
+
+  print(q.Objectives)
+
+  for rewardName: string, rewardValue in pairs(q.Rewards) do
+    table.insert(rewards, rewardName .. ": " .. tostring(rewardValue))
+  end
+
+  for objectiveIndex, objectiveValue: {Type: string, Target: string, Amount: number} in ipairs(q.Objectives) do
+    local questSpec = QuestSpec:Clone()
+
+    local Objective = questSpec:WaitForChild("Objective")
+    Objective.Text = objectiveValue.Type .. objectiveValue.Target .. " 0/" .. tostring(objectiveValue.Amount)
+
+    questSpec.Parent = QuestInfo
+  end
+
+  Rewards.Text = "Rewards: " .. table.concat(rewards, ", ")
 
   newQuest.Parent = QuestList
 end
