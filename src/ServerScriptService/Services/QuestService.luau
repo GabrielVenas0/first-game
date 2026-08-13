@@ -60,7 +60,7 @@ function Local.canAcceptQuest(player: Player, questId: string): boolean
   local config = QuestsDefinitions[questId]
   if not config then return false end
 
-  if Local.hasCompleted(player, questId) and Local.alreadyHave(player, questId) then return false end
+  if Local.hasCompleted(player, questId) or Local.alreadyHave(player, questId) then return false end
 
   if not config.Prerequisites or next(config.Prerequisites) == nil then return true end
 

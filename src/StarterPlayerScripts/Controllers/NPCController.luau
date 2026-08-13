@@ -107,16 +107,16 @@ function Local.NPCDialog(object: BasePart)
   local NPC_ID = object:GetAttribute("NPC_ID")
 
   local dialogs = DialogDefinitions.withoutQuest[NPC_ID].Dialogs
+  print(dialogs)
   local randomIndex = math.random(1, #dialogs)
 
-  local npcTalk = NPCTalkGui:Clone()
-  npcTalk.Adornee = object:WaitForChild("Head")
-
-  npcTalk.TextLabel.Text = dialogs[randomIndex]
-  npcTalk.Parent = MainHUD
-
+  NPCTalkGui.Adornee = object:WaitForChild("Head")
+  
+  NPCTalkGui.TextLabel.Text = dialogs[randomIndex]  
+  
+  NPCTalkGui.Enabled = true
   task.wait(3)
-  npcTalk:Destroy()
+  NPCTalkGui.Enabled = false
 end
 
 return Public

@@ -60,8 +60,6 @@ function Local.ActiveQuestUI(questId: string, q: {Title: string, Description: st
 
   local rewards = {}
 
-  print(q.Objectives)
-
   for rewardName: string, rewardValue in pairs(q.Rewards) do
     table.insert(rewards, rewardName .. ": " .. tostring(rewardValue))
   end
