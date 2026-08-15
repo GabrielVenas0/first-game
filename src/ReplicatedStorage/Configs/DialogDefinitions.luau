@@ -1,26 +1,33 @@
 local Public= {
   withQuest = {
     Quest_1 = {
-      Dialogs = {
-        "First Phrase",
-        "Second Phrase",
-        "Third Phrase"
+      Pages = {
+        {
+          Text = "Mensagem de introdução",
+          Options = { "Continue", "Bye" }
+        },
+        {
+          Text = "Mensagem da Quest",
+          Options = { "Accept Quest", "Nevermind"}
+        },
+        {
+          Text = "Mensagem de agradecimento por aceitar a quest",
+          Options = { "Bye" }
+        },
+        {
+          Text = "Mensagem para quando o jogador recusar/bye",
+          Options = {}
+        }
       },
-
-      Options = {
-        "First option",
-        "Second option",
-        "Third option"
-      }
     }
   },
 
   withoutQuest = {
     OldForger = {
       Dialogs = {
-        "First Phrase",
-        "Second Phrase",
-        "Third Phrase"
+        "Sem Quest #1",
+        "Sem Quest #2",
+        "Sem Quest #3",
       }
     }
   }

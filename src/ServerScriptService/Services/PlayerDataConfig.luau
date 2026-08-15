@@ -16,6 +16,7 @@ Public.DEFAULT_PLAYER_DATA = {
 
   -- QUESTS
   ActiveQuests = {},
+  ActiveObjectives = {},
   CompletedQuests = {},
 
   -- TUTORIAL

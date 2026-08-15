@@ -1,5 +1,6 @@
 --!strict
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
+local ServerScriptService = game:GetService("ServerScriptService")
 
 local Configs = ReplicatedStorage:WaitForChild("Configs")
 local Remotes = ReplicatedStorage:WaitForChild("Remotes")
@@ -10,10 +11,9 @@ local SkillsService = require(script.Parent.SkillsService)
 local GenerationService = require(script.Parent.GenerationService)
 local PoolingService = require(script.Parent.PoolingService)
 
+local QuestService = require(script.Parent.QuestService)
 
 local RemoteManager = require(Remotes:WaitForChild("RemoteManager"))
-local WipeNode = require(ReplicatedStorage.Util.WipeNode)
-
 local NotificationEvent = RemoteManager.GetEvent("Notification")
 
 local NORMAL_DAMAGE = 10
@@ -97,9 +97,9 @@ function Public.Gather(player: Player, node: BasePart, tool: Tool)
     DropService.rawDrop(player.UserId, node)
     GenerationService.WipeNodes(node)
     GenerationService.Discount(node)
-
-
     SkillsService.GiveXP(player, class)
+    QuestService.trackQuestProgress(player, node)
+
     node:SetAttribute("Action", "Drag")
     local prompt = node:WaitForChild("ProximityPrompt")
     prompt:Destroy()

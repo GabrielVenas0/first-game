@@ -23,9 +23,11 @@ local REMOTE_EVENTS = {
 	-- QUESTS SYSTEM
 	"StartQuest",
 	"CompleteQuest",
+	"ProgressQuest",
 
 	-- NPC SYSTEM
-	"StartTalkEvent"
+	"StartTalkEvent",
+	"StartQuestTalk"
 }
 
 local REMOTE_FUNCTIONS = {}
