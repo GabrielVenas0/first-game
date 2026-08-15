@@ -81,7 +81,7 @@ local Public: ConfigType = {
 				RawDropId = "OakLog",
 				MinSize = 8,
 				MaxSize = 15,
-				BaseSize = 25,
+				BaseSize = 35,
 			},
 		},
 		Ores = {

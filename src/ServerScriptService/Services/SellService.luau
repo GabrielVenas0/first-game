@@ -1,7 +1,14 @@
 --!strict
 local Workspace = game:GetService("Workspace")
+local ReplicatedStorage = game:GetService("ReplicatedStorage")
 
+local Remotes = ReplicatedStorage:WaitForChild("Remotes")
+local RemoteManager = require(Remotes:WaitForChild("RemoteManager")) 
+
+local Players = game:GetService("Players")
 local SellPart = Workspace:WaitForChild("Temp"):WaitForChild("SellPart") :: Part
+local StopDragEvent = RemoteManager.GetEvent("StopDrag")
+local PoolingService = require(script.Parent.PoolingService)
 
 -- I've created this script fully alone, writing down things that popped into my head
 -- This code is only for test, Ik I've to improve security, formula, logic, i.e.
@@ -31,10 +38,12 @@ function Public.Sell(object: BasePart)
   if props.Action :: string ~= "Drag" then return end
 
   if (props.PlayerOwner :: number) < 0 then return end
-
+  
+  
+   StopDragEvent:FireClient(Players:GetPlayerByUserId(props.PlayerOwner), object)
+    PoolingService.Free(object, object.Name)
   local gain = Local.calculateGain(object)
   print(tostring(props.PlayerOwner) .. " Just Sell " .. tostring(object) .. " And make " .. tostring(gain))
-  object:Destroy()
 end
 
 
